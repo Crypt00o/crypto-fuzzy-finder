@@ -1,0 +1,9 @@
+[package]
+name = "fuzzy-crypto"
+version = "0.1.0"
+edition = "2021"
+repository= "https://github.com/Crypt00o/crypto-fuzzy-finder"
+authors=["0xCrypt00o"]
+
+[dependencies]
+
