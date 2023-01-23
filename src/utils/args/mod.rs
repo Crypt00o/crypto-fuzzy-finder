@@ -1,84 +1,81 @@
 use std::{env::args, process::exit};
 
-
-
-
-pub struct CliArgs{
-    
-    pub path:Option<String>,
-    pub name:Option<String>,
-    pub is_directory:Option<bool>,
-    pub count:Option<usize>,
-    pub backward_search:Option<bool>,
-    pub verbose:Option<bool>
+pub struct CliArgs {
+    pub path: Option<String>,
+    pub name: Option<String>,
+    pub is_directory: Option<bool>,
+    pub count: Option<usize>,
+    pub backward_search: Option<bool>,
+    pub verbose: Option<bool>,
 }
 
+impl CliArgs {
+    pub fn get_args() -> Self {
+        let mut arg_counter: usize = 1;
 
+        let mut parsed_args = Self {
+            path: None,
+            name: None,
+            count: None,
+            backward_search: None,
+            is_directory: None,
+            verbose: None,
+        };
+        let mut given_args: Vec<String> = args().collect::<Vec<String>>();
 
-impl  CliArgs{
-    
-    pub fn get_args()->Self{
-    
-       let mut arg_counter:usize=1;
-
-       let mut parsed_args=Self{
-            path:None,
-            name:None,
-            count:None,
-            backward_search:None,
-            is_directory:None,
-            verbose:None
-          };   
-       let mut given_args:Vec<String>=args().collect::<Vec<String>>();
-       
-
-         while arg_counter<given_args.len(){
+        while arg_counter < given_args.len() {
             match given_args[arg_counter].clone().as_str() {
-               "-p" |"--path"=>{
-                  arg_counter+=1;
-                  parsed_args.path=Some(given_args[arg_counter].clone());
-               },
-               "-n" |"--name"=>{
-                  arg_counter+=1;
-                  parsed_args.name=Some(given_args[arg_counter].clone());
-               },
-                "-c" |"--count"=>{
-                  arg_counter+=1;
-                  parsed_args.count=Some(given_args[arg_counter].parse().expect("[-] Error Count Should Be Positive Number"));
-               },
-                "-f" |"--file"=>{
-                  parsed_args.is_directory=Some(false);
-                },
-                "-d" |"--dir"=>{
-                  parsed_args.is_directory=Some(true);
-                },
-                "-v" |"--verbose"=>{
-                  parsed_args.verbose=Some(true);
-                },
-                "-b" |"--backward"=>{
-                  parsed_args.backward_search=Some(true);
-                },
-
-                
-                "-h" |"--help"=>{
-                  Self::usage();
-                },
-
-
-
-               _=>{ println!("[-] Unknown Option  : {}",given_args[arg_counter]); exit(1); }
-            }
-            arg_counter+=1;
-         }
-
-               if parsed_args.name.is_none(){
-                    Self::usage()
+                "-p" | "--path" => {
+                    arg_counter += 1;
+                    parsed_args.path = Some(given_args[arg_counter].clone());
                 }
-       return parsed_args;
+                "-n" | "--name" => {
+                    arg_counter += 1;
+                    parsed_args.name = Some(given_args[arg_counter].clone());
+                }
+                "-c" | "--count" => {
+                    arg_counter += 1;
+                    parsed_args.count = Some(
+                        given_args[arg_counter]
+                            .parse()
+                            .expect("[-] Error Count Should Be Positive Number"),
+                    );
+                }
+                "-f" | "--file" => {
+                    parsed_args.is_directory = Some(false);
+                }
+                "-d" | "--dir" => {
+                    parsed_args.is_directory = Some(true);
+                }
+                "-v" | "--verbose" => {
+                    parsed_args.verbose = Some(true);
+                }
+                "-b" | "--backward" => {
+                    parsed_args.backward_search = Some(true);
+                }
+
+                "-h" | "--help" => {
+                    Self::usage();
+                }
+
+                _ => {
+                    println!("[-] Unknown Option  : {}", given_args[arg_counter]);
+                    exit(1);
+                }
+            }
+            arg_counter += 1;
+        }
+
+        if parsed_args.name.is_none() {
+            Self::usage()
+        }
+        return parsed_args;
     }
 
-    fn usage(){
-        println!("{}",r"
+    fn usage() {
+        println!(
+            "{}",
+            r"
                                     
              [+] Crypt00o Fuzzy Finder [+]
             
@@ -101,9 +98,8 @@ impl  CliArgs{
 
     --verbose   or -v => showing debugging info while searching
 
-        ");
+        "
+        );
         exit(1);
-
     }
-
 }

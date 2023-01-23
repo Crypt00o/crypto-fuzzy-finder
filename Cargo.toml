@@ -5,5 +5,10 @@ edition = "2021"
 repository= "https://github.com/Crypt00o/crypto-fuzzy-finder"
 authors=["0xCrypt00o"]
 
+[release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+
 [dependencies]
 

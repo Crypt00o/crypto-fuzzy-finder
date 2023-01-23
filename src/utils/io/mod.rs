@@ -3,7 +3,7 @@ use std::path::Path;
 pub fn fuzzy_search<'fuz>(
     name_of_file: &str,
     is_directory: &bool,
-    initial_path: & 'fuz Path,
+    initial_path: &'fuz Path,
     except_path: &mut Option<&'fuz Path>,
     results_size: &mut usize,
     debug: &bool,
@@ -85,7 +85,7 @@ pub fn fuzzy_search<'fuz>(
     };
 
     if *backward_search {
-         *except_path=  Some(initial_path);
+        *except_path = Some(initial_path);
 
         initial_path = match initial_path.parent() {
             Some(value) => value,
